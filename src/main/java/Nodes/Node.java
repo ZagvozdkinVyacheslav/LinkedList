@@ -1,26 +1,33 @@
 package Nodes;
 
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-@AllArgsConstructor
+import static com.fasterxml.jackson.databind.MapperFeature.DEFAULT_VIEW_INCLUSION;
+
 @Getter
 @Setter
-@EqualsAndHashCode(callSuper = true)
-public class Node<AnyType> extends DataNode {
+public class Node<AnyType>{
+    @JsonBackReference
     public Node<AnyType> prev;
-    private AnyType data;
+    public AnyType data;
+    @JsonManagedReference
     public Node<AnyType> next;
 
-    public Node(AnyType data){
+    public Node(AnyType data) {
+        this.prev = null;
         this.data = data;
         this.prev = null;
-        this.next = null;
     }
-    @Override
-    public void print() {
-        System.out.println(data);
+
+    public Node(Node<AnyType> prev, AnyType data, Node<AnyType> next) {
+        this.prev = prev;
+        this.data = data;
+        this.next = next;
     }
 }

@@ -1,9 +1,18 @@
 package Structure;
 
 import Nodes.Node;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Getter;
+import lombok.Setter;
 
+
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.NoSuchElementException;
-
+@Getter
+@Setter
 public class LinkList<AnyType> {
     private Node<AnyType> head;
     private Node<AnyType> tail;
@@ -42,10 +51,28 @@ public class LinkList<AnyType> {
         }
         size++;
     }
+    //требуется отладка
+    public void add(Integer index, AnyType data) {
+        if(index > size() - 1) throw new IndexOutOfBoundsException();
+        var current = head;
+        for (int i = 1; i <= index; i++) {
+            current = current.next;
+        }
+        Node<AnyType> temp = new Node<>(current.prev,data,current.next);
+        current.prev.next = temp;
+        if(current == tail) tail = temp;
 
-    /*public boolean contains(AnyType data) {
+    }
 
-    }*/
+    public boolean contains(AnyType data) {
+        if(isEmpty())return false;
+        var current = head;
+        while(current != null){
+            if(current.getData().equals(data))return true;
+            current = current.next;
+        }
+        return false;
+    }
 
     public void remove(AnyType data) {
         if (isEmpty())
@@ -73,7 +100,14 @@ public class LinkList<AnyType> {
         }
         throw new NoSuchElementException("Element " + data.toString() + " not found");
     }
-
+    public Node<AnyType> getByIndex(Integer index){//тесты
+        if(index > size() - 1) throw new IndexOutOfBoundsException("Вы вышли за пределы");
+        var current = head;
+        for (int i = 0; i < index; i++) {
+            current = current.next;
+        }
+        return current;
+    }
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -84,13 +118,30 @@ public class LinkList<AnyType> {
         }
         return sb.toString();
     }
-
     public boolean isEmpty() {
         if(size == 0)return true;
         return false;
     }
-
     public int size() {
         return size;
+    }
+    public void saveToFile(String path){
+        PrintWriter writer = null;
+        try {
+            writer = new PrintWriter(path, "UTF-8");
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            writer.println(new ObjectMapper().writeValueAsString(this));
+
+
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
+        writer.close();
     }
 }

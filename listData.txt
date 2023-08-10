@@ -1,0 +1,1 @@
+{"head":{"data":{"name":"Slava","weight":1.3,"tattoo":true},"next":{"data":{"name":"Sla","weight":1.34,"tattoo":true},"next":{"data":{"name":"Sa","weight":1.333,"tattoo":false},"next":null}}},"tail":{"data":{"name":"Sa","weight":1.333,"tattoo":false},"next":null},"size":3,"empty":false}
