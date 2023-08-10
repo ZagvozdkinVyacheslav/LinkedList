@@ -3,37 +3,35 @@ package Structure;
 import Nodes.Node;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.Cleanup;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.SneakyThrows;
 
-
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.util.NoSuchElementException;
 @Getter
 @Setter
 public class LinkList<AnyType> {
     private Node<AnyType> head;
-    private Node<AnyType> tail;
+
     private int size;
 
 
     public LinkList() {
         this.head = null;
         this.size = 0;
-        this.tail = null;
+
 
     }
     public void addFront(AnyType data) {
         if(isEmpty()){
-            head = new Node<>(null, data, null);
-            tail = head;
+            head = new Node<>(data, null);
+
         }
         else{
             Node<AnyType> temp = head;
-            head = new Node<>(null, data, temp);
-            head.next.prev = head;
+            head = new Node<>(data, temp);
         }
         size++;
     }
@@ -41,13 +39,15 @@ public class LinkList<AnyType> {
     public void addEnd(AnyType data) {
 
         if(isEmpty()){
-            head = new Node<>(null, data, null);
-            tail = head;
+            head = new Node<>( data, null);
         }
         else{
-            Node<AnyType> temp = tail;
-            tail = new Node<>(temp, data, null);
-            tail.prev.next = tail;
+            var current = head;
+            while(current.next != null){
+                current = current.next;
+            }
+            var temp = new Node<AnyType>(data, null);
+            current.next = temp;
         }
         size++;
     }
@@ -55,13 +55,11 @@ public class LinkList<AnyType> {
     public void add(Integer index, AnyType data) {
         if(index > size() - 1) throw new IndexOutOfBoundsException();
         var current = head;
-        for (int i = 1; i <= index; i++) {
+        for (int i = 1; i < index; i++) {
             current = current.next;
         }
-        Node<AnyType> temp = new Node<>(current.prev,data,current.next);
-        current.prev.next = temp;
-        if(current == tail) tail = temp;
-
+        Node<AnyType> temp = new Node<>(data,current.next);
+        current.next = temp;
     }
 
     public boolean contains(AnyType data) {
@@ -82,16 +80,13 @@ public class LinkList<AnyType> {
             //теоретически тут отчистка из памяти ноды
             return;
         }
-        if(tail.getData().equals(data)){
-            tail = tail.prev;
-            //теоретически тут отчистка из памяти ноды
-            return;
-        }
+
         Node<AnyType> current = head;
         while(current.next != null){
-            if(current.getData().equals(data)){
-                current.next.prev = current.prev;
-                current.prev.next = current.next;
+            if(current.next.getData().equals(data)){
+                var temp = current.next;
+                current.next = temp.next;
+                temp = null;
                 size--;
                 return;
                 //теоретически тут отчистка из памяти ноды
@@ -118,30 +113,33 @@ public class LinkList<AnyType> {
         }
         return sb.toString();
     }
+
     public boolean isEmpty() {
         if(size == 0)return true;
         return false;
     }
+
     public int size() {
         return size;
     }
+
+
     public void saveToFile(String path){
-        PrintWriter writer = null;
         try {
-            writer = new PrintWriter(path, "UTF-8");
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException(e);
-        } catch (UnsupportedEncodingException e) {
+            @Cleanup FileWriter file = new FileWriter(path);
+            file.write("[\n\t");
+            var current = head;
+            for (int i = 0; i < getSize(); i++) {
+                file.write(current.print());
+                if(i < getSize() - 1)
+                    file.write(",\n\t");
+                else
+                    file.write("\n]");
+                current = current.next;
+            }
+            file.close();
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        try {
-            writer.println(new ObjectMapper().writeValueAsString(this));
-
-
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-
-        writer.close();
     }
 }

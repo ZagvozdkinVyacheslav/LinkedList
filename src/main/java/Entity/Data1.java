@@ -28,7 +28,12 @@ public class Data1 extends DataNode {
     @Override
     public String print() {
         StringBuilder sb = new StringBuilder();
-        var decFields = new ArrayList<>(Arrays.asList(this.getClass().getDeclaredFields()));
+        ArrayList<Field> decFields = null;
+        try {
+            decFields = new ArrayList<>(Arrays.asList(this.getClass().getDeclaredField("data").getClass().getDeclaredFields()));
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        }
 
         sb.append("{");
         try {
@@ -45,7 +50,6 @@ public class Data1 extends DataNode {
                     break;
             }
 
-            System.out.println(decFields.get(i).getType().toString());
         }
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
@@ -54,11 +58,5 @@ public class Data1 extends DataNode {
         sb.append("}");
         return sb.toString();
     }
-    public String printTest() {
-        try {
-            return new ObjectMapper().writeValueAsString(this);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
-    }
+
 }

@@ -13,11 +13,10 @@ public class appMain {
         lst.addEnd(new Data1("Slava", 1.3, true));
         lst.addEnd(new Data1("Sla", 1.34, true));
         lst.addEnd(new Data1("Sa", 1.333, false));
+        
+        lst.saveToFile("listData.txt");
 
-        System.out.println(lst.getByIndex(0).data.print());
 
-
-        System.out.println(lst.getByIndex(0).data.printTest());
 
     }
 }
