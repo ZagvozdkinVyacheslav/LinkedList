@@ -1,11 +1,10 @@
 package Entity;
 
 import Abstract.DataNode;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import lombok.Getter;
 import lombok.Setter;
-import lombok.val;
+
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -29,11 +28,9 @@ public class Data1 extends DataNode {
     public String print() {
         StringBuilder sb = new StringBuilder();
         ArrayList<Field> decFields = null;
-        try {
-            decFields = new ArrayList<>(Arrays.asList(this.getClass().getDeclaredField("data").getClass().getDeclaredFields()));
-        } catch (NoSuchFieldException e) {
-            throw new RuntimeException(e);
-        }
+
+        decFields = new ArrayList<>(Arrays.asList(this.getClass().getDeclaredFields()));
+
 
         sb.append("{");
         try {

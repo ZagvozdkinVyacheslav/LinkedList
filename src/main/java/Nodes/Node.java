@@ -1,33 +1,22 @@
 package Nodes;
-
-import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import static com.fasterxml.jackson.databind.MapperFeature.DEFAULT_VIEW_INCLUSION;
-
-@Getter
+@Getter//SonarLint ругается, но геттеры и сеттеры есть
 @Setter
-public class Node<AnyType>{
+public class Node<T>{
 
-    public AnyType data;
+    public T data;
 
-    public Node<AnyType> next;
+    public Node<T> next;
 
-    public Node(AnyType data) {
+    public Node(T data) {
         this.data = data;
         this.next = null;
     }
 
-    public Node(AnyType data, Node<AnyType> next) {
+    public Node(T data, Node<T> next) {
 
         this.data = data;
         this.next = next;

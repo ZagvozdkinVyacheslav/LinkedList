@@ -1,19 +1,16 @@
 package Structure;
 
 import Nodes.Node;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Cleanup;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.SneakyThrows;
 
 import java.io.*;
 import java.util.NoSuchElementException;
 @Getter
 @Setter
-public class LinkList<AnyType> {
-    private Node<AnyType> head;
+public class LinkList<T> {
+    private Node<T> head;
 
     private int size;
 
@@ -24,19 +21,19 @@ public class LinkList<AnyType> {
 
 
     }
-    public void addFront(AnyType data) {
+    public void addFront(T data) {
         if(isEmpty()){
             head = new Node<>(data, null);
 
         }
         else{
-            Node<AnyType> temp = head;
+            Node<T> temp = head;
             head = new Node<>(data, temp);
         }
         size++;
     }
 
-    public void addEnd(AnyType data) {
+    public void addEnd(T data) {
 
         if(isEmpty()){
             head = new Node<>( data, null);
@@ -46,23 +43,29 @@ public class LinkList<AnyType> {
             while(current.next != null){
                 current = current.next;
             }
-            var temp = new Node<AnyType>(data, null);
+            var temp = new Node<T>(data, null);
             current.next = temp;
         }
         size++;
     }
     //требуется отладка
-    public void add(Integer index, AnyType data) {
-        if(index > size() - 1) throw new IndexOutOfBoundsException();
-        var current = head;
-        for (int i = 1; i < index; i++) {
-            current = current.next;
+    public void add(Integer index, T data) {
+        if(isEmpty()){
+            head = new Node<>( data, null);
         }
-        Node<AnyType> temp = new Node<>(data,current.next);
-        current.next = temp;
+        else {
+            if(index >= size()) throw new IndexOutOfBoundsException();
+            var current = head;
+            for (int i = 1; i < index; i++) {
+                current = current.next;
+            }
+            Node<T> temp = new Node<>(data,current.next);
+            current.next = temp;
+        }
+        size++;
     }
 
-    public boolean contains(AnyType data) {
+    public boolean contains(T data) {
         if(isEmpty())return false;
         var current = head;
         while(current != null){
@@ -72,7 +75,7 @@ public class LinkList<AnyType> {
         return false;
     }
 
-    public void remove(AnyType data) {
+    public void remove(T data) {
         if (isEmpty())
             throw new NoSuchElementException("Element " + data.toString() + " not found");
         if(head.getData().equals(data)){
@@ -81,12 +84,12 @@ public class LinkList<AnyType> {
             return;
         }
 
-        Node<AnyType> current = head;
+        Node<T> current = head;
         while(current.next != null){
             if(current.next.getData().equals(data)){
                 var temp = current.next;
                 current.next = temp.next;
-                temp = null;
+                temp = null;// SonarLint говорит убрать, но тогда теоретически не попадет в gc
                 size--;
                 return;
                 //теоретически тут отчистка из памяти ноды
@@ -95,7 +98,7 @@ public class LinkList<AnyType> {
         }
         throw new NoSuchElementException("Element " + data.toString() + " not found");
     }
-    public Node<AnyType> getByIndex(Integer index){//тесты
+    public Node<T> getByIndex(Integer index){//тесты
         if(index > size() - 1) throw new IndexOutOfBoundsException("Вы вышли за пределы");
         var current = head;
         for (int i = 0; i < index; i++) {
@@ -106,16 +109,24 @@ public class LinkList<AnyType> {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
+        sb.append("[");
         var current = head;
         while (current != null){
-            sb.append(current.getData());
+            if(current.getClass().getPackage().getName().startsWith("java.lang")){
+                sb.append(current.getData() + ", ");
+            }
+            else{
+                sb.append(current.getData() + ", ");
+            }
             current = current.next;
         }
+        sb.delete(sb.length() - 2, sb.length());
+        sb.append("]");
         return sb.toString();
     }
 
     public boolean isEmpty() {
-        if(size == 0)return true;
+        if(getSize() == 0) return true;
         return false;
     }
 
