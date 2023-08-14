@@ -1,26 +1,35 @@
 package Nodes;
-
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.Setter;
-
-@AllArgsConstructor
-@Getter
+@Getter//SonarLint ругается, но геттеры и сеттеры есть
 @Setter
-@EqualsAndHashCode(callSuper = true)
-public class Node<AnyType> extends DataNode {
-    public Node<AnyType> prev;
-    private AnyType data;
-    public Node<AnyType> next;
+public class Node<T>{
 
-    public Node(AnyType data){
+    public T data;
+
+    public Node<T> next;
+
+    public Node(T data) {
         this.data = data;
-        this.prev = null;
         this.next = null;
     }
-    @Override
-    public void print() {
-        System.out.println(data);
+
+    public Node(T data, Node<T> next) {
+
+        this.data = data;
+        this.next = next;
+    }
+    public String print() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            return objectMapper.writeValueAsString(data)
+                    .replace("{\"","{\n\t\t\"")
+                    .replace(",\"",",\n\t\t\"")
+                    .replace("}","\n\t}");
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
