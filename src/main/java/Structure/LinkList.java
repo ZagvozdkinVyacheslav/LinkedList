@@ -1,6 +1,9 @@
 package Structure;
 
+import Abstract.DataNode;
 import Nodes.Node;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Cleanup;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,7 +12,7 @@ import java.io.*;
 import java.util.NoSuchElementException;
 @Getter
 @Setter
-public class LinkList<T> {
+public class LinkList<T extends DataNode> extends DataNode {
     private Node<T> head;
 
     private int size;
@@ -107,20 +110,14 @@ public class LinkList<T> {
         return current;
     }
     @Override
-    public String toString() {
+    public String print() {
         StringBuilder sb = new StringBuilder();
         sb.append("[");
         var current = head;
         while (current != null){
-            if(current.getClass().getPackage().getName().startsWith("java.lang")){
-                sb.append(current.getData() + ", ");
-            }
-            else{
-                sb.append(current.getData() + ", ");
-            }
+            sb.append(current.data.print());
             current = current.next;
         }
-        sb.delete(sb.length() - 2, sb.length());
         sb.append("]");
         return sb.toString();
     }
