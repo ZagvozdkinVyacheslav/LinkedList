@@ -2,6 +2,7 @@ package Entity;
 
 import Abstract.DataNode;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,6 +13,7 @@ import java.util.Arrays;
 
 @Getter
 @Setter
+@EqualsAndHashCode
 public class Data1 extends DataNode {
     private String name;
     private double weight;
@@ -30,8 +32,6 @@ public class Data1 extends DataNode {
         ArrayList<Field> decFields = null;
 
         decFields = new ArrayList<>(Arrays.asList(this.getClass().getDeclaredFields()));
-
-
         sb.append("{");
         try {
         for (int i = 0; i < decFields.size(); i++) {

@@ -1,5 +1,7 @@
 package Structure;
 
+import Entity.Data1;
+import Entity.Data2;
 import Nodes.Node;
 import org.junit.jupiter.api.Test;
 
@@ -9,109 +11,110 @@ import java.util.NoSuchElementException;
 import static org.junit.jupiter.api.Assertions.*;
 
 class LinkListTest {
-    LinkList<Integer> lst = new LinkList<>();
+    LinkList<Data2> lst = new LinkList<>();
 
     @Test
     void addFront() {
-        lst.addFront(1);
-        lst.addFront(2);
-        lst.addFront(3);
-        assertEquals("[3, 2, 1]", lst.toString());
+
+        lst.addFront(new Data2("1", "2"));
+        lst.addFront(new Data2("3", "4"));
+        lst.addFront(new Data2("5", "6"));
+        assertEquals("[{\"firstName\":\"5\",\"secondName\":\"6\"}{\"firstName\":\"3\",\"secondName\":\"4\"}{\"firstName\":\"1\",\"secondName\":\"2\"}]", lst.print());
     }
 
     @Test
     void addEnd() {
-        lst.addEnd(1);
-        lst.addEnd(2);
-        lst.addEnd(3);
-        assertEquals("[1, 2, 3]", lst.toString());
+        lst.addEnd(new Data2("1", "2"));
+        lst.addEnd(new Data2("3", "4"));
+        lst.addEnd(new Data2("5", "6"));
+        assertEquals("[{\"firstName\":\"1\",\"secondName\":\"2\"}{\"firstName\":\"3\",\"secondName\":\"4\"}{\"firstName\":\"5\",\"secondName\":\"6\"}]", lst.print());
     }
 
     @Test
     void add1() {//check index 0 and usually work
-        lst.add(0,1);
-        lst.add(0,2);
-        lst.add(1,3);
+        lst.add(0,new Data2("1", "2"));
+        lst.add(0,new Data2("3", "4"));
+        lst.add(1,new Data2("5", "6"));
 
-        assertEquals("[1, 3, 2]", lst.toString());
+        assertEquals("[{\"firstName\":\"1\",\"secondName\":\"2\"}{\"firstName\":\"5\",\"secondName\":\"6\"}{\"firstName\":\"3\",\"secondName\":\"4\"}]", lst.print());
     }
     @Test
     void add2() {//check index == size - 1
-        lst.addEnd(0);
-        lst.addEnd(1);
-        lst.addEnd(3);
-        lst.add(2,2);
+        lst.addEnd(new Data2("1", "2"));
+        lst.addEnd(new Data2("3", "4"));
+        lst.addEnd(new Data2("5", "6"));
+        lst.add(2,new Data2("9", "9"));
 
-        assertEquals("[0, 1, 2, 3]", lst.toString());
+        assertEquals("[{\"firstName\":\"1\",\"secondName\":\"2\"}{\"firstName\":\"3\",\"secondName\":\"4\"}{\"firstName\":\"9\",\"secondName\":\"9\"}{\"firstName\":\"5\",\"secondName\":\"6\"}]", lst.print());
     }
     @Test
     void add3() {//IndexOutOfBoundsException()
-        lst.addEnd(0);
-        lst.addEnd(1);
-        lst.addEnd(3);
+        lst.addEnd(new Data2("1", "2"));
+        lst.addEnd(new Data2("1", "2"));
+        lst.addEnd(new Data2("1", "2"));
         assertThrows(IndexOutOfBoundsException.class,
-                ()->{lst.add(3,2);});
+                ()->{lst.add(3,new Data2("1", "2"));});
 
     }
 
 
     @Test
     void contains() {
-        lst.addEnd(0);
-        lst.addEnd(1);
-        lst.addEnd(3);
-        assertEquals(true,lst.contains(0));
+        lst.addEnd(new Data2("1", "2"));
+        lst.addEnd(new Data2("2", "3"));
+        lst.addEnd(new Data2("4", "5"));
+        assertEquals(true,lst.contains(new Data2("1", "2")));
     }
     @Test
     void contains1() {
-        lst.addEnd(0);
-        lst.addEnd(1);
-        lst.addEnd(3);
-        assertTrue(lst.contains(3));
+        lst.addEnd(new Data2("1", "2"));
+        lst.addEnd(new Data2("1", "2"));
+        lst.addEnd(new Data2("5", "4"));
+        assertTrue(lst.contains(new Data2("5", "4")));
     }
     @Test
     void contains3() {
-        lst.addEnd(0);
-        lst.addEnd(1);
-        lst.addEnd(3);
-        assertFalse(lst.contains(4));
+        lst.addEnd(new Data2("1", "2"));
+        lst.addEnd(new Data2("1", "2"));
+        lst.addEnd(new Data2("1", "2"));
+        assertFalse(lst.contains(new Data2("1233", "2")));
     }
 
     @Test
     void remove() {
-        lst.addEnd(0);
-        lst.addEnd(1);
-        lst.addEnd(2);
-        lst.remove(1);
-        assertEquals("[0, 2]", lst.toString());
+        lst.addEnd(new Data2("1", "2"));
+        lst.addEnd(new Data2("3", "2"));
+        lst.addEnd(new Data2("4", "2"));
+        lst.remove(new Data2("1", "2"));
+        assertEquals("[{\"firstName\":\"3\",\"secondName\":\"2\"}{\"firstName\":\"4\",\"secondName\":\"2\"}]", lst.print());
     }
     @Test
     void removeExc() {
-        lst.addEnd(0);
-        lst.addEnd(1);
-        lst.addEnd(2);
+        lst.addEnd(new Data2("1", "2"));
+        lst.addEnd(new Data2("1", "2"));
+        lst.addEnd(new Data2("1", "2"));
         assertThrows(NoSuchElementException.class,
-                ()->{lst.remove(4);});
+                ()->{lst.remove(new Data2("1", "222222"));});
     }
 
     @Test
     void getByIndex() {//check working
-        lst.addEnd(0);
+        lst.addEnd(new Data2("1", "2"));
         assertInstanceOf(Node.class, lst.getByIndex(0));
     }
     @Test
     void getByIndexExc() {//check Exception
-        lst.addEnd(0);
+        lst.addEnd(new Data2("1", "2"));
         assertThrows(IndexOutOfBoundsException.class,
                 ()->{lst.getByIndex(1);});
     }
     @Test
     void getByIndex1() {//check expected node
-        lst.addEnd(1);
-        lst.addEnd(2);
-        lst.addEnd(3);
-        lst.addEnd(4);
-        assertEquals(3, lst.getByIndex(2).data);
+        lst.addEnd(new Data2("1", "2"));
+        lst.addEnd(new Data2("1", "2"));
+        lst.addEnd(new Data2("2", "23"));
+        lst.addEnd(new Data2("1", "2"));
+        assertEquals("{\"firstName\":\"2\",\"secondName\":\"23\"}", lst.getByIndex(2).data.print());
     }
 
 
@@ -121,7 +124,7 @@ class LinkListTest {
     }
     @Test
     void isEmptyFalse() {
-        lst.addEnd(1);
+        lst.addEnd(new Data2("1", "2"));
         assertFalse(lst.isEmpty());
     }
 
@@ -131,18 +134,18 @@ class LinkListTest {
     }
     @Test
     void size1() {
-        lst.addEnd(1);
-        lst.addFront(2);
-        lst.add(0,5);
+        lst.addEnd(new Data2("1", "2"));
+        lst.addFront(new Data2("1", "2"));
+        lst.add(0,new Data2("1", "2"));
         assertEquals(3, lst.size());
     }
 
     @Test
     void saveToFile() {
-        lst.addEnd(1);
-        lst.addEnd(2);
-        lst.addEnd(3);
-        lst.addEnd(4);
+        lst.addEnd(new Data2("1", "2"));
+        lst.addEnd(new Data2("1", "2"));
+        lst.addEnd(new Data2("1", "2"));
+        lst.addEnd(new Data2("1", "2"));
         lst.saveToFile("listData.txt");
         StringBuilder sb = new StringBuilder();
         try(FileReader reader = new FileReader("listData.txt");) {
@@ -156,7 +159,7 @@ class LinkListTest {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        assertEquals("[\t1,\t2,\t3,\t4]", sb.toString());
+        assertEquals("[\t{\t\t\"firstName\":\"1\",\t\t\"secondName\":\"2\"\t},\t{\t\t\"firstName\":\"1\",\t\t\"secondName\":\"2\"\t},\t{\t\t\"firstName\":\"1\",\t\t\"secondName\":\"2\"\t},\t{\t\t\"firstName\":\"1\",\t\t\"secondName\":\"2\"\t}]", sb.toString());
 
     }
 }
