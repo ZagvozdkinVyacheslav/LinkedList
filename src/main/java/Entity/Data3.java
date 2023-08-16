@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Setter
 @Getter
+@Setter
 @EqualsAndHashCode
 public class Data3 extends DataNode {
     private char symbol;

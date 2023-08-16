@@ -78,6 +78,7 @@ class LinkListTest {
         lst.addEnd(new Data2("1", "2"));
         lst.addEnd(new Data2("1", "2"));
         assertFalse(lst.contains(new Data2("1233", "2")));
+
     }
     @Test
     void find() {
@@ -98,6 +99,7 @@ class LinkListTest {
     void findExc2() {
         assertThrows(NoSuchElementException.class,
                 ()->{lst.find(new Data2("1", "222222"));});
+
     }
 
     @Test

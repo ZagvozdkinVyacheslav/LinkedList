@@ -32,8 +32,6 @@ public class Data1 extends DataNode {
         ArrayList<Field> decFields = null;
 
         decFields = new ArrayList<>(Arrays.asList(this.getClass().getDeclaredFields()));
-
-
         sb.append("{");
         try {
         for (int i = 0; i < decFields.size(); i++) {
