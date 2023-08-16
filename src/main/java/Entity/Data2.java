@@ -9,7 +9,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @EqualsAndHashCode
-
 public class Data2 extends DataNode {
     private String firstName;
     private String secondName;
