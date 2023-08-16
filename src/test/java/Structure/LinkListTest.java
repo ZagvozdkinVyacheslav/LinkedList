@@ -79,6 +79,26 @@ class LinkListTest {
         lst.addEnd(new Data2("1", "2"));
         assertFalse(lst.contains(new Data2("1233", "2")));
     }
+    @Test
+    void find() {
+        lst.addEnd(new Data2("1", "2"));
+        lst.addEnd(new Data2("1123", "32"));
+
+        assertTrue(new Data2("1", "2").equals(lst.find(new Data2("1", "2"))));
+    }
+    @Test
+    void findExc1() {
+        lst.addEnd(new Data2("1", "2"));
+        lst.addEnd(new Data2("1123", "32"));
+
+        assertThrows(NoSuchElementException.class,
+                ()->{lst.find(new Data2("1", "222222"));});
+    }
+    @Test
+    void findExc2() {
+        assertThrows(NoSuchElementException.class,
+                ()->{lst.find(new Data2("1", "222222"));});
+    }
 
     @Test
     void remove() {
@@ -162,4 +182,6 @@ class LinkListTest {
         assertEquals("[\t{\t\t\"firstName\":\"1\",\t\t\"secondName\":\"2\"\t},\t{\t\t\"firstName\":\"1\",\t\t\"secondName\":\"2\"\t},\t{\t\t\"firstName\":\"1\",\t\t\"secondName\":\"2\"\t},\t{\t\t\"firstName\":\"1\",\t\t\"secondName\":\"2\"\t}]", sb.toString());
 
     }
+
+
 }

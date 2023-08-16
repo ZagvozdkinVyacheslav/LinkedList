@@ -131,6 +131,16 @@ public class LinkList<T extends DataNode> extends DataNode {
         return size;
     }
 
+    public DataNode find(T data){
+        if(isEmpty())throw new NoSuchElementException("Такого элемента нет");
+        var current = head;
+        while(current != null){
+            if(current.getData().equals(data))return current.getData();
+            current = current.next;
+        }
+        throw new NoSuchElementException("Такого элемента нет");
+    }
+
 
     public void saveToFile(String path){
         try {

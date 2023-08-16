@@ -2,6 +2,7 @@ package Entity;
 
 import Abstract.DataNode;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,6 +13,7 @@ import java.util.Arrays;
 
 @Getter
 @Setter
+@EqualsAndHashCode
 public class Data1 extends DataNode {
     private String name;
     private double weight;
