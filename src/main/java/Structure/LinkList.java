@@ -2,8 +2,6 @@ package Structure;
 
 import Abstract.DataNode;
 import Nodes.Node;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Cleanup;
 import lombok.Getter;
 import lombok.Setter;
@@ -139,6 +137,17 @@ public class LinkList<T extends DataNode> extends DataNode {
             current = current.next;
         }
         throw new NoSuchElementException("Такого элемента нет");
+    }
+    public void clear(){
+        size = 0;
+        var current = head;
+        while(current != null){
+            var temp = current.next;
+            current.data = null;
+            current.next = null;
+            current = temp;
+        }
+        head = null;
     }
 
 
