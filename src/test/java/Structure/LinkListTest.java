@@ -161,6 +161,22 @@ class LinkListTest {
         lst.add(0,new Data2("1", "2"));
         assertEquals(3, lst.size());
     }
+    @Test
+    void clear1() {//проверка size
+        lst.addEnd(new Data2("1", "2"));
+        lst.addFront(new Data2("1", "2"));
+        lst.add(0,new Data2("1", "2"));
+        lst.clear();
+        assertEquals(0, lst.size());
+    }
+    @Test
+    void clear2() {//проверка size
+        lst.addEnd(new Data2("1", "2"));
+        lst.addFront(new Data2("1", "2"));
+        lst.add(0,new Data2("1", "2"));
+        lst.clear();
+        assertEquals("[]", lst.print());
+    }
 
     @Test
     void saveToFile() {
