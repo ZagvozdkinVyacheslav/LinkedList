@@ -1,7 +1,7 @@
-package Structure;
+package org.example.structure;
 
-import Abstract.DataNode;
-import Nodes.Node;
+import org.example.abstractClass.DataNode;
+import org.example.nodes.Node;
 import lombok.Cleanup;
 import lombok.Getter;
 import lombok.Setter;
@@ -129,24 +129,8 @@ public class LinkList<T extends DataNode> extends DataNode {
         return size;
     }
 
-    public DataNode find(T data){
-        if(isEmpty())throw new NoSuchElementException("Такого элемента нет");
-        var current = head;
-        while(current != null){
-            if(current.getData().equals(data))return current.getData();
-            current = current.next;
-        }
-        throw new NoSuchElementException("Такого элемента нет");
-    }
     public void clear(){
         size = 0;
-        var current = head;
-        while(current != null){
-            var temp = current.next;
-            current.data = null;
-            current.next = null;
-            current = temp;
-        }
         head = null;
     }
 

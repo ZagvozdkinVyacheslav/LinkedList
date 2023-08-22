@@ -1,6 +1,6 @@
-package Entity;
+package org.example.entity;
 
-import Abstract.DataNode;
+import org.example.abstractClass.DataNode;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

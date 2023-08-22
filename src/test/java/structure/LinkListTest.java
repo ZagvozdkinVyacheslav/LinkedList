@@ -1,8 +1,8 @@
-package Structure;
+package structure;
 
-import Entity.Data1;
-import Entity.Data2;
-import Nodes.Node;
+import org.example.entity.Data2;
+import org.example.nodes.Node;
+import org.example.structure.LinkList;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
@@ -80,27 +80,7 @@ class LinkListTest {
         assertFalse(lst.contains(new Data2("1233", "2")));
 
     }
-    @Test
-    void find() {
-        lst.addEnd(new Data2("1", "2"));
-        lst.addEnd(new Data2("1123", "32"));
 
-        assertTrue(new Data2("1", "2").equals(lst.find(new Data2("1", "2"))));
-    }
-    @Test
-    void findExc1() {
-        lst.addEnd(new Data2("1", "2"));
-        lst.addEnd(new Data2("1123", "32"));
-
-        assertThrows(NoSuchElementException.class,
-                ()->{lst.find(new Data2("1", "222222"));});
-    }
-    @Test
-    void findExc2() {
-        assertThrows(NoSuchElementException.class,
-                ()->{lst.find(new Data2("1", "222222"));});
-
-    }
 
     @Test
     void remove() {

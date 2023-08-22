@@ -1,5 +1,6 @@
-package Entity;
+package entity;
 
+import org.example.entity.Data1;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
