@@ -1,23 +1,21 @@
-package Entity;
+package org.example.entity;
 
-import Abstract.DataNode;
+import org.example.abstractClass.DataNode;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+
 @Getter
 @Setter
 @EqualsAndHashCode
-public class Data2 extends DataNode {
-    private String firstName;
-    private String secondName;
+public class Data3 extends DataNode {
+    private char symbol;
 
-    public Data2(String firstName, String secondName) {
-        this.firstName = firstName;
-        this.secondName = secondName;
+    public Data3(char symbol) {
+        this.symbol = symbol;
     }
-
 
     @Override
     public String print() {
@@ -27,6 +25,4 @@ public class Data2 extends DataNode {
             throw new RuntimeException(e);
         }
     }
-
-
 }
